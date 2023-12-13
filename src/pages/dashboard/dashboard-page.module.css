@@ -1,0 +1,7 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 954px;
+  margin: 40px auto 0;
+}/*# sourceMappingURL=dashboard-page.module.css.map */

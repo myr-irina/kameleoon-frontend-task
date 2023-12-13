@@ -1,0 +1,16 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  @extend %font-secondary;
+  @include font($size: 1.2rem, $height: 3rem);
+  background-color: $color-background-body;
+  margin: 0 auto;
+}
+
+h1 {
+  @include font($size: 2.6rem, $weight: 700);
+  @extend %font-primary;
+  margin: 0;
+}

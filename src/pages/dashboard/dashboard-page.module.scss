@@ -1,0 +1,9 @@
+@import '../../scss/abstracts/constants';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $content-width;
+  margin: 40px auto 0;
+}
