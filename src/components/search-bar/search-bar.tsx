@@ -1,20 +1,44 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import styles from './search-bar.module.scss';
+import SearchIcon from '../../assets/icons/search-glass.svg';
+import { ITest } from '../../types/types';
 
 interface SearchBarProps {
-  searchInput: string;
+  query: string;
+  filteredTests: ITest[];
   handleInputChange: (e: ChangeEvent) => void;
 }
 
-function SearchBar({ searchInput, handleInputChange }: SearchBarProps) {
+function SearchBar({
+  query,
+  handleInputChange,
+  filteredTests,
+}: SearchBarProps) {
+  const length = filteredTests.length;
+
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="What test are you looking for?"
-        value={searchInput}
-        onChange={handleInputChange}
-      />
-    </div>
+    <section className={styles.search}>
+      <div className={styles.search__container}>
+        <form className={styles.search__form}>
+          <div className={styles['search__input-block']}>
+            <img
+              className={styles.search__icon}
+              src={SearchIcon}
+              alt="search glass"
+            />
+            <input
+              className={styles.search__input}
+              type="text"
+              placeholder="What test are you looking for?"
+              value={query}
+              onChange={handleInputChange}
+              autoComplete="off"
+            />
+            <p className={styles.search__text}>{`${length} tests`}</p>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }
 

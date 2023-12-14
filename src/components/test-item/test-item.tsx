@@ -1,5 +1,6 @@
 import React from 'react';
 import { ITest } from '../../types/types';
+import styles from './test-item.module.scss';
 
 interface TestItemProps {
   test: ITest;
@@ -7,9 +8,10 @@ interface TestItemProps {
 
 function TestItem({ test }: TestItemProps) {
   return (
-    <div>
-      {test.id} {test.name}
-    </div>
+    <li className={styles['list-item']}>
+      <div> {test.name} </div>
+      <div> {test.type}</div>
+    </li>
   );
 }
 
