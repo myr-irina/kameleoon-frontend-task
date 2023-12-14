@@ -14,7 +14,9 @@ function TestList<T>(props: TestListProps<T>) {
         <p className={styles.list__item}>NAME</p>
         <span>
           <p>TYPE</p>
-          <img src={ArrowUp} alt="arrow up" />
+          <button>
+            <img src={ArrowUp} alt="arrow up" />
+          </button>
         </span>
         <p>STATUS</p>
         <p>SITE</p>
