@@ -6,6 +6,7 @@ import { ISite, ITest } from '../../types/types';
 import TestItem from '../../components/test-item/test-item';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constants';
+import { sortByAlphabet } from '../../utils/helpers';
 
 function DashboardPage() {
   const [query, setQuery] = useState('');
@@ -14,6 +15,8 @@ function DashboardPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [filteredTests, setFilteredTests] = useState<ITest[]>([]);
   const [sites, setSites] = useState<ISite[]>([]);
+  const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>('ASC');
+  const [sortOrderByType, setSortOrderByType] = useState<'ASC' | 'DESC'>('ASC');
 
   function handleInputChange(e: ChangeEvent) {
     const target = e.target as HTMLInputElement;
@@ -59,6 +62,17 @@ function DashboardPage() {
     }
   }
 
+  function handleSortBy<T extends ITest, K extends keyof T>(
+    property: K,
+    arr: T[],
+  ) {
+    const newOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    setSortOrder(newOrder);
+
+    const sortedData = sortByAlphabet(arr, property, newOrder);
+    setFilteredTests(sortedData);
+  }
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -76,6 +90,8 @@ function DashboardPage() {
         filteredTests={filteredTests}
       />
       <TestList
+        handleSortBy={handleSortBy}
+        sortOrder={sortOrderByType}
         items={filteredTests}
         renderItem={(test: ITest) => (
           <TestItem sites={sites} test={test} key={test.id} />
