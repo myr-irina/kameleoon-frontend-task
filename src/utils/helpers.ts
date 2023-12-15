@@ -3,5 +3,9 @@ export function cleanedUrl(url: string | undefined) {
 }
 
 export function capitalizeLetter(str: string) {
-  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  if (str.length > 3) {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  } else {
+    return str;
+  }
 }

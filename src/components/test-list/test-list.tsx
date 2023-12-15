@@ -11,15 +11,19 @@ function TestList<T>(props: TestListProps<T>) {
   return (
     <section className={styles.list}>
       <div className={styles.list__header}>
-        <p className={styles.list__item}>NAME</p>
-        <span>
-          <p>TYPE</p>
-          <button>
-            <img src={ArrowUp} alt="arrow up" />
-          </button>
-        </span>
-        <p>STATUS</p>
-        <p>SITE</p>
+        <button>
+          <span className={styles.list__item}>NAME</span>
+        </button>
+        <button>
+          <span>TYPE</span>
+          <img src={ArrowUp} alt="arrow up" />
+        </button>
+        <button>
+          <span>STATUS</span>
+        </button>
+        <button>
+          <span>SITE</span>
+        </button>
       </div>
       {props.items.length === 0 ? (
         <p>Your search did not match any results.</p>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ISite, ITest } from '../../types/types';
 import styles from './test-item.module.scss';
-import { cleanedUrl, capitalizeLetter } from '../../utils/cleanUrl';
+import { cleanedUrl, capitalizeLetter } from '../../utils/helpers';
+import classNames from 'classnames';
 
 interface TestItemProps {
   test: ITest;
@@ -13,24 +14,31 @@ function TestItem({ test, sites }: TestItemProps) {
 
   return (
     <li
-      className={styles['list-item']}
-      style={{
-        borderLeft: '4px solid',
-        borderLeftColor:
-          test.siteId === 1
-            ? '#E14165;'
-            : test.siteId === 2
-            ? '#C2C2FF'
-            : test.siteId === 3
-            ? '#8686FF'
-            : '',
-      }}
+      className={classNames(styles['list-item'], {
+        [styles['border-red']]: test.siteId === 1,
+        [styles['border-blue']]: test.siteId === 2,
+        [styles['border-purple']]: test.siteId === 3,
+      })}
     >
       <div>{capitalizeLetter(test.name)}</div>
       <div>{capitalizeLetter(test.type)}</div>
-      <div>{capitalizeLetter(test.status)}</div>
+      <div
+        className={classNames({
+          [styles['text-correct']]: test.status === 'ONLINE',
+          [styles['text-warning']]: test.status === 'PAUSED',
+          [styles['text-alert']]: test.status === 'STOPPED',
+        })}
+      >
+        {capitalizeLetter(test.status)}
+      </div>
       <div>{cleanedUrl(selectedSite?.url)}</div>
-      <button className={styles.button}>Results</button>
+      {test.status === 'DRAFT' ? (
+        <button className={`${styles.button} ${styles['button-finalize']}`}>
+          Finalize
+        </button>
+      ) : (
+        <button className={styles.button}>Results</button>
+      )}
     </li>
   );
 }

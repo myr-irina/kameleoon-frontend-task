@@ -19,7 +19,7 @@ function SearchBar({
   return (
     <section className={styles.search}>
       <div className={styles.search__container}>
-        <form className={styles.search__form}>
+
           <div className={styles['search__input-block']}>
             <img
               className={styles.search__icon}
@@ -36,7 +36,7 @@ function SearchBar({
             />
             <p className={styles.search__text}>{`${length} tests`}</p>
           </div>
-        </form>
+
       </div>
     </section>
   );
