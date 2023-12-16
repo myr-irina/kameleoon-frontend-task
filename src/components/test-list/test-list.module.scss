@@ -5,6 +5,7 @@
 .list {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   &__header {
     display: grid;
@@ -44,4 +45,12 @@ ul {
   margin: 0;
   padding: 0;
   gap: 5px;
+}
+
+.list__error-text {
+  align-self: center;
+  margin: 150px 0 auto;
+  color: #222;
+  @extend %font-primary;
+  @include font($size: 1.8rem, $weight: 500);
 }

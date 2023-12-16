@@ -52,7 +52,9 @@ function TestList({
         </button>
       </div>
       {items.length === 0 ? (
-        <p>Your search did not match any results.</p>
+        <p className={styles['list__error-text']}>
+          Your search did not match any results.
+        </p>
       ) : (
         <ul> {items.map(renderItem)}</ul>
       )}
