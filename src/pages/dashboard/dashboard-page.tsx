@@ -6,7 +6,7 @@ import { ISite, ITest } from '../../types/types';
 import TestItem from '../../components/test-item/test-item';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constants';
-import { sortByAlphabet } from '../../utils/helpers';
+import { cleanedUrl, sortByAlphabet } from '../../utils/helpers';
 
 function DashboardPage() {
   const [query, setQuery] = useState('');
@@ -16,17 +16,17 @@ function DashboardPage() {
   const [filteredTests, setFilteredTests] = useState<ITest[]>([]);
   const [sites, setSites] = useState<ISite[]>([]);
   const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>('ASC');
-  const [sortOrderByType, setSortOrderByType] = useState<'ASC' | 'DESC'>('ASC');
 
   function handleInputChange(e: ChangeEvent) {
     const target = e.target as HTMLInputElement;
-    setQuery(target.value);
+    const inputValue = target.value.toLowerCase();
+    setQuery(inputValue);
 
-    if (target.value === '') {
+    if (!inputValue) {
       setFilteredTests(tests);
     } else {
       const filteredItems = tests.filter((test: ITest) =>
-        test.name.toLowerCase().includes(query.toLowerCase()),
+        test.name.toLowerCase().includes(inputValue),
       );
       setFilteredTests(filteredItems);
     }
@@ -62,7 +62,7 @@ function DashboardPage() {
     }
   }
 
-  function handleSortBy<T extends ITest, K extends keyof T>(
+  function handleSortByNameAndType<T extends ITest, K extends keyof T>(
     property: K,
     arr: T[],
   ) {
@@ -70,6 +70,25 @@ function DashboardPage() {
     setSortOrder(newOrder);
 
     const sortedData = sortByAlphabet(arr, property, newOrder);
+    setFilteredTests(sortedData);
+  }
+
+  function handleSortBySiteURL(sites: ISite[], tests: ITest[]) {
+    const siteIdToURL = sites.reduce((acc, site) => {
+      acc[site.id] = cleanedUrl(site.url);
+      return acc;
+    }, {} as { [key: number]: string });
+
+    const sortedTests = [...tests].sort((a, b) => {
+      const siteAURL = siteIdToURL[a.siteId];
+      const siteBURL = siteIdToURL[b.siteId];
+      return siteAURL.localeCompare(siteBURL);
+    });
+
+    const newOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    setSortOrder(newOrder);
+
+    const sortedData = newOrder === 'ASC' ? sortedTests.reverse() : sortedTests;
     setFilteredTests(sortedData);
   }
 
@@ -90,9 +109,10 @@ function DashboardPage() {
         filteredTests={filteredTests}
       />
       <TestList
-        handleSortBy={handleSortBy}
-        sortOrder={sortOrderByType}
+        handleSortByNameAndType={handleSortByNameAndType}
+        handleSortBySiteURL={handleSortBySiteURL}
         items={filteredTests}
+        sites={sites}
         renderItem={(test: ITest) => (
           <TestItem sites={sites} test={test} key={test.id} />
         )}

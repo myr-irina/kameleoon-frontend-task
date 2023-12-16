@@ -1,7 +1,8 @@
-import { ITest } from '../types/types';
-
 export function cleanedUrl(url: string | undefined) {
-  return url?.replace(/^https?:\/\/(www\.)?/, '');
+  if (typeof url === 'string') {
+    return url.replace(/^https?:\/\/(www\.)?/, '');
+  }
+  return '';
 }
 
 export function capitalizeLetter(str: string) {

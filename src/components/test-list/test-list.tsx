@@ -2,25 +2,30 @@ import React, { useState } from 'react';
 import styles from './test-list.module.scss';
 import ArrowUp from '../../assets/icons/arrow-up.svg';
 import ArrowDown from '../../assets/icons/arrow-down.svg';
-import { ITest } from '../../types/types';
+import { ISite, ITest } from '../../types/types';
 
 interface TestListProps {
   items: ITest[];
+  sites: ISite[];
   renderItem: (item: ITest) => React.ReactNode;
-  handleSortBy: <K extends keyof ITest>(property: K, arr: ITest[]) => void;
-  sortOrder: 'ASC' | 'DESC';
+  handleSortByNameAndType: <K extends keyof ITest>(
+    property: K,
+    arr: ITest[],
+  ) => void;
+  handleSortBySiteURL: (sites: ISite[], tests: ITest[]) => void;
 }
 
 function TestList({
   items,
   renderItem,
-  handleSortBy,
-  sortOrder,
+  handleSortByNameAndType,
+  handleSortBySiteURL,
+  sites,
 }: TestListProps) {
   const [arrowDir, setArrowDir] = useState('ASC');
 
   function handleOrderByType() {
-    handleSortBy('type', items);
+    handleSortByNameAndType('type', items);
     const newOrder = arrowDir === 'ASC' ? 'DESC' : 'ASC';
     setArrowDir(newOrder);
   }
@@ -28,7 +33,7 @@ function TestList({
   return (
     <section className={styles.list}>
       <div className={styles.list__header}>
-        <button onClick={() => handleSortBy('name', items)}>
+        <button onClick={() => handleSortByNameAndType('name', items)}>
           <span className={styles.list__item}>NAME</span>
         </button>
         <button onClick={handleOrderByType}>
@@ -42,7 +47,7 @@ function TestList({
         <button>
           <span>STATUS</span>
         </button>
-        <button>
+        <button onClick={() => handleSortBySiteURL(sites, items)}>
           <span>SITE</span>
         </button>
       </div>
