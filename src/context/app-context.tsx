@@ -64,6 +64,12 @@ function AppProvider({ children }: AppProviderProps) {
     fetchSites();
   }, []);
 
+  useEffect(() => {
+    if (query === '') {
+      setFilteredTests(tests);
+    }
+  }, [query, tests]);
+
   async function fetchTests() {
     try {
       const response = await axios.get<ITest[]>(`${BASE_URL}/tests`);
