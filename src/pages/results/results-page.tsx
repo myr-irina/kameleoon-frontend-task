@@ -1,7 +1,8 @@
 import React from 'react';
+import DetailPage from '../detail-page/detail-page';
 
-function ResultsPage() {
-  return <div>ResultsPage</div>;
-}
+const ResultsPage: React.FC = () => {
+  return <DetailPage heading="Results" />;
+};
 
 export default ResultsPage;

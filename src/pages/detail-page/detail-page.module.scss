@@ -1,0 +1,42 @@
+@import '../../scss/abstracts/mixins';
+@import '../../scss/abstracts/placeholders';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+.text {
+  color: #222;
+  font-family: Montserrat;
+
+  @extend %font-primary;
+  @include font($size: 1.4rem, $weight: 600);
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+
+  span {
+    color: #222;
+    @extend %font-add;
+    @include font($size: 1.8rem, $weight: 700);
+  }
+}

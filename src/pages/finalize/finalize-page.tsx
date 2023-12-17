@@ -1,23 +1,8 @@
-import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { ITest } from '../../types/types';
-import { AppContext } from '../../context/app-context';
+import React from 'react';
+import DetailPage from '../detail-page/detail-page';
 
-function FinalizePage() {
-  const { testId } = useParams();
-  const parsedTestId = testId ? parseInt(testId, 10) : undefined;
-
-  const { filteredTests } = useContext(AppContext);
-
-  return (
-    <>
-      {filteredTests
-        .filter((item: ITest) => item.id === parsedTestId)
-        .map((item: ITest) => {
-          return <div>{item.name}</div>;
-        })}
-    </>
-  );
-}
+const FinalizePage: React.FC = () => {
+  return <DetailPage heading="Finalize" />;
+};
 
 export default FinalizePage;
