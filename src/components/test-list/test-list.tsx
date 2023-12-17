@@ -4,6 +4,7 @@ import ArrowUp from '../../assets/icons/arrow-up.svg';
 import ArrowDown from '../../assets/icons/arrow-down.svg';
 import { ISite, ITest } from '../../types/types';
 import { AppContext } from '../../context/app-context';
+import { statusOrderAsc, statusOrderDesc } from '../../utils/constants';
 
 interface TestListProps {
   items: ITest[];
@@ -23,15 +24,8 @@ function TestList({
   handleSortBySiteURL,
   sites,
 }: TestListProps) {
-  const { handleReset } = useContext(AppContext);
-
-  const [arrowDir, setArrowDir] = useState('ASC');
-
-  function handleOrderByType() {
-    handleSortByNameAndType('type', items);
-    const newOrder = arrowDir === 'ASC' ? 'DESC' : 'ASC';
-    setArrowDir(newOrder);
-  }
+  const { handleReset, handleOrderByType, handleOrderByStatus, arrowDir } =
+    useContext(AppContext);
 
   return (
     <section className={styles.list}>
@@ -47,7 +41,7 @@ function TestList({
             <img src={ArrowDown} alt="arrow down" />
           )}
         </button>
-        <button>
+        <button onClick={handleOrderByStatus}>
           <span>STATUS</span>
         </button>
         <button onClick={() => handleSortBySiteURL(sites, items)}>

@@ -3,6 +3,7 @@ import React, { ChangeEvent, createContext, useEffect, useState } from 'react';
 import { ITest, ISite } from '../types/types';
 import { BASE_URL } from '../utils/constants';
 import { sortByAlphabet, cleanedUrl } from '../utils/helpers';
+import { statusOrderAsc, statusOrderDesc } from '../utils/constants';
 
 interface AppContextProps {
   query: string;
@@ -15,6 +16,9 @@ interface AppContextProps {
   handleSortBySiteURL: (sites: ISite[], tests: ITest[]) => void;
   sites: ISite[];
   handleReset: () => void;
+  handleOrderByType: () => void;
+  handleOrderByStatus: () => void;
+  arrowDir: string;
 }
 
 export const AppContext = createContext<AppContextProps>({
@@ -25,6 +29,9 @@ export const AppContext = createContext<AppContextProps>({
   handleSortBySiteURL: () => {},
   sites: [],
   handleReset: () => {},
+  handleOrderByType: () => {},
+  handleOrderByStatus: () => {},
+  arrowDir: '',
 });
 
 interface AppProviderProps {
@@ -39,6 +46,7 @@ function AppProvider({ children }: AppProviderProps) {
   const [filteredTests, setFilteredTests] = useState<ITest[]>([]);
   const [sites, setSites] = useState<ISite[]>([]);
   const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>('ASC');
+  const [arrowDir, setArrowDir] = useState('ASC');
 
   function handleInputChange(e: ChangeEvent) {
     const target = e.target as HTMLInputElement;
@@ -95,6 +103,12 @@ function AppProvider({ children }: AppProviderProps) {
     }
   }
 
+  function handleOrderByType() {
+    handleSortByNameAndType('type', filteredTests);
+    const newOrder = arrowDir === 'ASC' ? 'DESC' : 'ASC';
+    setArrowDir(newOrder);
+  }
+
   function handleSortByNameAndType<T extends ITest, K extends keyof T>(
     property: K,
     arr: T[],
@@ -125,6 +139,30 @@ function AppProvider({ children }: AppProviderProps) {
     setFilteredTests(sortedData);
   }
 
+  function handleOrderByStatus() {
+    const sortedItems = [...filteredTests].sort((a, b) => {
+      const statusA = a.status.toUpperCase();
+      const statusB = b.status.toUpperCase();
+
+      const newOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+      setSortOrder(newOrder);
+
+      if (sortOrder === 'ASC') {
+        return (
+          statusOrderAsc.indexOf(statusA) - statusOrderAsc.indexOf(statusB)
+        );
+      } else if (sortOrder === 'DESC') {
+        return (
+          statusOrderDesc.indexOf(statusA) - statusOrderDesc.indexOf(statusB)
+        );
+      } else {
+        throw new Error('Invalid order');
+      }
+    });
+
+    setFilteredTests(sortedItems);
+  }
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -143,6 +181,9 @@ function AppProvider({ children }: AppProviderProps) {
         handleSortBySiteURL,
         sites,
         handleReset,
+        handleOrderByType,
+        handleOrderByStatus,
+        arrowDir,
       }}
     >
       {children}
