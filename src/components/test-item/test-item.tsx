@@ -3,6 +3,7 @@ import { ISite, ITest } from '../../types/types';
 import styles from './test-item.module.scss';
 import { cleanedUrl, capitalizeLetter } from '../../utils/helpers';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 interface TestItemProps {
   test: ITest;
@@ -33,11 +34,15 @@ function TestItem({ test, sites }: TestItemProps) {
       </div>
       <div>{cleanedUrl(selectedSite?.url)}</div>
       {test.status === 'DRAFT' ? (
-        <button className={`${styles.button} ${styles['button-finalize']}`}>
-          Finalize
-        </button>
+        <Link to={`/finalize/${test.id}`}>
+          <button className={`${styles.button} ${styles['button-finalize']}`}>
+            Finalize
+          </button>
+        </Link>
       ) : (
-        <button className={styles.button}>Results</button>
+        <Link to={`/results/${test.id}`}>
+          <button className={styles.button}>Results</button>
+        </Link>
       )}
     </li>
   );
