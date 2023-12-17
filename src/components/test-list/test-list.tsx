@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './test-list.module.scss';
 import ArrowUp from '../../assets/icons/arrow-up.svg';
 import ArrowDown from '../../assets/icons/arrow-down.svg';
 import { ISite, ITest } from '../../types/types';
+import { AppContext } from '../../context/app-context';
 
 interface TestListProps {
   items: ITest[];
@@ -22,6 +23,8 @@ function TestList({
   handleSortBySiteURL,
   sites,
 }: TestListProps) {
+  const { handleReset } = useContext(AppContext);
+
   const [arrowDir, setArrowDir] = useState('ASC');
 
   function handleOrderByType() {
@@ -51,12 +54,18 @@ function TestList({
           <span>SITE</span>
         </button>
       </div>
+
       {items.length === 0 ? (
-        <p className={styles['list__error-text']}>
-          Your search did not match any results.
-        </p>
+        <div className={styles['list__no-results']}>
+          <p className={styles['list__error-text']}>
+            Your search did not match any results.
+          </p>
+          <button className={styles.button} onClick={handleReset}>
+            Reset
+          </button>
+        </div>
       ) : (
-        <ul> {items.map(renderItem)}</ul>
+        <ul>{items.map(renderItem)}</ul>
       )}
     </section>
   );

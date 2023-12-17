@@ -54,3 +54,25 @@ ul {
   @extend %font-primary;
   @include font($size: 1.8rem, $weight: 500);
 }
+
+.list__no-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  button {
+    width: 95px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: $color-background-light;
+    border: none;
+
+    @extend %font-primary;
+    @include font($size: 1.2rem, $weight: 600);
+    color: $color-white;
+    cursor: pointer;
+  }
+}

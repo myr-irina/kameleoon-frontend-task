@@ -14,6 +14,7 @@ interface AppContextProps {
   ) => void;
   handleSortBySiteURL: (sites: ISite[], tests: ITest[]) => void;
   sites: ISite[];
+  handleReset: () => void;
 }
 
 export const AppContext = createContext<AppContextProps>({
@@ -23,6 +24,7 @@ export const AppContext = createContext<AppContextProps>({
   handleSortByNameAndType: () => {},
   handleSortBySiteURL: () => {},
   sites: [],
+  handleReset: () => {},
 });
 
 interface AppProviderProps {
@@ -51,6 +53,10 @@ function AppProvider({ children }: AppProviderProps) {
       );
       setFilteredTests(filteredItems);
     }
+  }
+
+  function handleReset() {
+    setQuery('');
   }
 
   useEffect(() => {
@@ -130,6 +136,7 @@ function AppProvider({ children }: AppProviderProps) {
         handleSortByNameAndType,
         handleSortBySiteURL,
         sites,
+        handleReset,
       }}
     >
       {children}
