@@ -32,15 +32,11 @@ The app is a dashboard page which used to display a list of created A/B tests ([
 Backend:
 
 - Clone a repository: git clone git@development.kameleoon.net:oivanov/frontend-interview-task-api.git
-
 - Install dependencies: npm install
-
 - Run server: npm start
 
 Frontend:
 
 - Clone a repository: git clone https://github.com/myr-irina/kameleoon-frontend-task.git
-
 - Install dependencies: npm install
-
 - Run app: npm run start
