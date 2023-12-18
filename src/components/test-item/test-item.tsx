@@ -1,7 +1,7 @@
 import React from 'react';
 import { ISite, ITest } from '../../types/types';
 import styles from './test-item.module.scss';
-import { cleanedUrl, capitalizeLetter } from '../../utils/helpers';
+import { cleanedUrl, capitalizeLetter } from '../../utils/helpers/helpers';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 

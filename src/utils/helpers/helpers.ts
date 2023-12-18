@@ -1,6 +1,6 @@
 export function cleanedUrl(url: string | undefined) {
   if (typeof url === 'string') {
-    return url.replace(/^https?:\/\/(www\.)?/, '');
+    return url.replace(/^(https?:\/\/)?(www\.)?/, '');
   }
   return '';
 }

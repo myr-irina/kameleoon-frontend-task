@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { ChangeEvent, createContext, useEffect, useState } from 'react';
 import { ITest, ISite } from '../types/types';
 import { BASE_URL } from '../utils/constants';
-import { sortByAlphabet, cleanedUrl } from '../utils/helpers';
+import { sortByAlphabet, cleanedUrl } from '../utils/helpers/helpers';
 import { statusOrderAsc, statusOrderDesc } from '../utils/constants';
 
 interface AppContextProps {
